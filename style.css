@@ -11,7 +11,7 @@ body {
 
 .window {
     width: 300px;
-    height: 200px;
+    height: 600px;
     border: 2px solid black;
     background-color: #FFFFFF;
     box-shadow: 3px 3px #808080;
@@ -68,4 +68,39 @@ body {
   background: #41485B;
   border-radius: 5px;
   top: 0;
+}
+
+body {
+    background-color: #C0C0C0;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+header, footer {
+    background-color: #000080;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+main {
+    padding: 20px;
+    background-color: white;
+    border: 2px solid black;
+/*    width: 400px; */
+    margin: auto;
+}
+
+.text, .choices {
+    margin-bottom: 20px;
+}
+
+.button-container {
+    text-align: center;
+}
+
+.button {
+    background-color: #C0C0C0;
+    border: 1px solid black;
+    padding: 10px 20px;
+    cursor: pointer;
 }
