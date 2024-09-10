@@ -1,4 +1,9 @@
 [build]
-  functions = "functions"
-  publish = "public"
+  publish = "public"  # HTML、CSSなどを配置する公開ディレクトリ
+  functions = "functions"  # Netlify Functionsのコードを置くディレクトリ
+
+[[redirects]]
+  from = "/images/*"
+  to = "/images/:splat"
+  status = 200
 
