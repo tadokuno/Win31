@@ -83,7 +83,11 @@
                     <input type="radio" name="sauce" value="0"> その他 <br>
                 </label>
             </div>
-
+            <!-- 画像アップロードフィールド -->
+            <div class="file-upload">
+                <label for="file">画像をアップロード：</label>
+                <input type="file" id="file" name="file" accept="image/*">
+            </div>
             <!-- 送信ボタン -->
             <div class="button-container">
                 <input type="submit" value="送信" class="button">
@@ -92,4 +96,44 @@
     </main>
     <footer>(c) OmuQuest</footer>
 </body>
+<script>
+    document.querySelector('form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+    
+      const formData = new FormData(event.target);
+    
+      // 画像ファイルを取得
+      const fileInput = document.querySelector('#file');
+      const file = fileInput.files[0];
+    
+      if (file) {
+        // ファイルを送信する処理をここに追加
+        const reader = new FileReader();
+        reader.onloadend = async () => {
+          const imageData = reader.result;
+    
+          // フォームデータと画像データをサーバーに送信
+          const response = await fetch('/.netlify/functions/upload', {
+            method: 'POST',
+            body: JSON.stringify({
+              station: formData.get('station'),
+              egg: formData.get('egg'),
+              rice: formData.get('rice'),
+              sauce: formData.get('sauce'),
+              image: imageData,
+            }),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+    
+          const result = await response.json();
+          console.log(result.message);
+        };
+    
+        reader.readAsDataURL(file); // 画像をBase64に変換
+      }
+    });
+</script>
+    
 </html>
