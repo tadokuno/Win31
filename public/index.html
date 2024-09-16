@@ -1,68 +1,105 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
+<html>
+  <head>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Windows 3.1風アプリ</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplebar@5.3.6/dist/simplebar.min.css"/>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/simplebar@5.3.6/dist/simplebar.min.js"></script>
-</head>
-<body>
-    <div class="window">
-        <div class="title-bar">
-            <span class="title">Program Manager</span>
-            <div class="buttons">
-                <button class="minimize">-</button>
-                <button class="close">x</button>
-            </div>
-        </div>
-        <div class="content" data-simplebar data-simplebar-auto-hide="false">
-            <ol>
-                <li>Kimi Natural 73+cafe</li>
-                <li>OSLO COFFEE 池袋ホープセンター店</li>
-                <li>RAKU CAFE 池袋</li>
-                <li>梟書茶房 Ｅｓｏｌａ池袋店</li>
-                <li>MOTTO CAFE 池袋店</li>
-                <li>MJ BOOK CAFE 池袋本店</li>
-                <li>珈琲茶館 集 池袋店</li>
-                <li>Wacca Coffee Club</li>
-                <li>珈琲館 池袋東口グリーン大通り店</li>
-                <li>カフェ・ド・巴里池袋西口店</li>
-                <li>グローバルリングカフェ</li>
-                <li>ガーデンテラスカフェヒソカ</li>
-                <li>コラボカフェ本舗BLANC池袋店</li>
-                <li>カフェ ドゥ モモ</li>
-                <li>SMILE BASE CAFE 池袋店</li>
-                <li>AMOCAFE池袋1号店</li>
-                <li>cafe & bal No.8 co.</li>
-                <li>coly cafe! 池袋PARCO店</li>
-                <li>スペレン138号店 池袋</li>
-                <li>cafeふれあい 本店</li>
-                <li>eeo Cafe 池袋店</li>
-                <li>LALA_CHURROS</li>
-                <li>コラボカフェ アンドギャラリー池袋店</li>
-                <li>TOIVO 新文芸坐店</li>
-                <li>ゆる学徒カフェ</li>
-                <li>スペレン127号店 池袋</li>
-                <li>မြန်မာဆိုင်</li>
-                <li>カフェ・テルヴェ！</li>
-                <li>株式会社リソーウェルフェア プラスワンカフェ</li>
-                <li>24/7 café apartment 池袋</li>
-                <li>JELLY JELLY CAFE 池袋2号店</li>
-                <li>PEARL LADY 茶BAR 池袋エキア店</li>
-                <li>THEキャラCAFÉ グランドスケープ池袋店</li>
-                <li>ネミココカフェ</li>
-                <li>アニメイトカフェスタンド池袋4号店</li>
-                <li>GiGO コラボカフェ池袋</li>
-                <li>スペレン141号店 池袋</li>
-                <li>atari CAFE＆DINING 池袋PARCO店</li>
-                <li>カプコンカフェ 池袋店</li>
-                <li>炭火焼珈琲 蔵</li>
-                <li>Ｃａｆｅ ｒｅｓｔｏ</li>
-            </ol>
-        </div>
+    <title>オムライス指数マップ</title>
+    <style>
+      /* Google Mapsのサイズを指定 */
+      #map {
+        height: 60vh;
+        width: 100%;
+      }
+
+      /* オムライス指数リストのスタイル */
+      #omurice-list {
+        height: 40vh;
+        overflow-y: auto;
+        padding: 10px;
+        background-color: #f0f0f0;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #333;
+        color: white;
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLhDc1I6CQmq8ee0FmaUMChpBTs40AmgM&callback=initMap" async defer></script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div id="omurice-list">
+      <table>
+        <thead>
+          <tr>
+            <th>駅名</th>
+            <th>オムライス指数</th>
+          </tr>
+        </thead>
+        <tbody id="station-list">
+          <!-- 駅とオムライス指数がここに動的に表示されます -->
+        </tbody>
+      </table>
     </div>
-    <script src="script.js"></script>
-</body>
+
+    <script>
+      let map;
+
+      // Google Mapsの初期化
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: { lat: 35.681236, lng: 139.767125 }, // 東京駅を初期中心に設定
+          zoom: 12
+        });
+
+        // 駅データを取得してマップに表示
+        fetchStationData();
+      }
+
+      // 駅データの取得（ここでは一例として静的なデータを使用）
+      function fetchStationData() {
+        const stations = [
+          { name: '東京駅', lat: 35.681236, lng: 139.767125, omuriceIndex: 48 },
+          { name: '新宿駅', lat: 35.690921, lng: 139.700257, omuriceIndex: 45 },
+          { name: '渋谷駅', lat: 35.658033, lng: 139.701636, omuriceIndex: 42 },
+          // 他の駅データを追加
+        ];
+
+        // 駅の位置にマーカーを表示し、リストを更新
+        updateMapAndList(stations);
+      }
+
+      // 駅のデータを基にマップとリストを更新
+      function updateMapAndList(stations) {
+        const stationList = document.getElementById('station-list');
+        stationList.innerHTML = ''; // 既存のリストをクリア
+
+        stations.forEach(station => {
+          // マップにマーカーを追加
+          const marker = new google.maps.Marker({
+            position: { lat: station.lat, lng: station.lng },
+            map: map,
+            title: station.name
+          });
+
+          // リストにオムライス指数を追加
+          const row = document.createElement('tr');
+          row.innerHTML = `<td>${station.name}</td><td>${station.omuriceIndex}</td>`;
+          stationList.appendChild(row);
+        });
+      }
+    </script>
+  </body>
 </html>
+
