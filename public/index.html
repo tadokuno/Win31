@@ -1,105 +1,110 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>オムライス指数マップ</title>
-    <style>
-      /* Google Mapsのサイズを指定 */
-      #map {
-        height: 60vh;
-        width: 100%;
-      }
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>オムライス指数マップ</title>
+  <style>
+    /* マップのサイズを指定 */
+    #map {
+      height: 60vh;
+      width: 100%;
+    }
 
-      /* オムライス指数リストのスタイル */
-      #omurice-list {
-        height: 40vh;
-        overflow-y: auto;
-        padding: 10px;
-        background-color: #f0f0f0;
-      }
+    /* オムライス指数リストのスタイル */
+    #omurice-list {
+      height: 40vh;
+      overflow-y: auto;
+      padding: 10px;
+      background-color: #f0f0f0;
+    }
 
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
 
-      th, td {
-        padding: 8px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-      }
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
 
-      th {
-        background-color: #333;
-        color: white;
-      }
-    </style>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLhDc1I6CQmq8ee0FmaUMChpBTs40AmgM&callback=initMap" async defer></script>
-  </head>
-  <body>
-    <div id="map"></div>
-    <div id="omurice-list">
-      <table>
-        <thead>
-          <tr>
-            <th>駅名</th>
-            <th>オムライス指数</th>
-          </tr>
-        </thead>
-        <tbody id="station-list">
-          <!-- 駅とオムライス指数がここに動的に表示されます -->
-        </tbody>
-      </table>
-    </div>
+    th {
+      background-color: #333;
+      color: white;
+    }
+  </style>
+  <!-- Leaflet.jsのCSSを読み込み -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="omurice-list">
+    <table>
+      <thead>
+        <tr>
+          <th>駅名</th>
+          <th>オムライス指数</th>
+        </tr>
+      </thead>
+      <tbody id="station-list">
+        <!-- 駅とオムライス指数がここに動的に表示されます -->
+      </tbody>
+    </table>
+  </div>
 
-    <script>
-      let map;
+  <!-- Leaflet.jsのJavaScriptを読み込み -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    let map;
 
-      // Google Mapsの初期化
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: { lat: 35.681236, lng: 139.767125 }, // 東京駅を初期中心に設定
-          zoom: 12
-        });
+    // Leafletマップの初期化
+    function initMap() {
+      // 東京駅を初期中心に設定
+      map = L.map('map').setView([35.681236, 139.767125], 12);
 
-        // 駅データを取得してマップに表示
-        fetchStationData();
-      }
+      // OpenStreetMapのタイルレイヤーを追加
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(map);
 
-      // 駅データの取得（ここでは一例として静的なデータを使用）
-      function fetchStationData() {
-        const stations = [
-          { name: '東京駅', lat: 35.681236, lng: 139.767125, omuriceIndex: 48 },
-          { name: '新宿駅', lat: 35.690921, lng: 139.700257, omuriceIndex: 45 },
-          { name: '渋谷駅', lat: 35.658033, lng: 139.701636, omuriceIndex: 42 },
-          // 他の駅データを追加
-        ];
+      // 駅データを取得してマップに表示
+      fetchStationData();
+    }
 
-        // 駅の位置にマーカーを表示し、リストを更新
-        updateMapAndList(stations);
-      }
+    // 駅データの取得（ここでは一例として静的なデータを使用）
+    function fetchStationData() {
+      const stations = [
+        { name: '東京駅', lat: 35.681236, lng: 139.767125, omuriceIndex: 48 },
+        { name: '新宿駅', lat: 35.690921, lng: 139.700257, omuriceIndex: 45 },
+        { name: '渋谷駅', lat: 35.658033, lng: 139.701636, omuriceIndex: 42 },
+        // 他の駅データを追加
+      ];
 
-      // 駅のデータを基にマップとリストを更新
-      function updateMapAndList(stations) {
-        const stationList = document.getElementById('station-list');
-        stationList.innerHTML = ''; // 既存のリストをクリア
+      // 駅の位置にマーカーを表示し、リストを更新
+      updateMapAndList(stations);
+    }
 
-        stations.forEach(station => {
-          // マップにマーカーを追加
-          const marker = new google.maps.Marker({
-            position: { lat: station.lat, lng: station.lng },
-            map: map,
-            title: station.name
-          });
+    // 駅のデータを基にマップとリストを更新
+    function updateMapAndList(stations) {
+      const stationList = document.getElementById('station-list');
+      stationList.innerHTML = ''; // 既存のリストをクリア
 
-          // リストにオムライス指数を追加
-          const row = document.createElement('tr');
-          row.innerHTML = `<td>${station.name}</td><td>${station.omuriceIndex}</td>`;
-          stationList.appendChild(row);
-        });
-      }
-    </script>
-  </body>
+      stations.forEach(station => {
+        // マップにマーカーを追加
+        const marker = L.marker([station.lat, station.lng]).addTo(map);
+        marker.bindPopup(`<b>${station.name}</b><br>オムライス指数: ${station.omuriceIndex}`);
+
+        // リストにオムライス指数を追加
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${station.name}</td><td>${station.omuriceIndex}</td>`;
+        stationList.appendChild(row);
+      });
+    }
+
+    // ページ読み込み時にマップを初期化
+    window.onload = initMap;
+  </script>
+</body>
 </html>
-
