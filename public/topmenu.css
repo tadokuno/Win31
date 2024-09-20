@@ -82,7 +82,7 @@ a:link, a:active, a:visited {
 }
 
 .m30{
-    color: white;
+    color: rgb(75, 2, 2);
     margin-bottom: 1.875rem;
 }
 .m50{
@@ -176,7 +176,7 @@ a:link, a:active, a:visited {
     font-weight: 800;
     text-align : center;
     overflow : hidden;
-    color: white;
+    color: black;
 }
 .text_attention p{
     margin:0;
@@ -204,30 +204,29 @@ a:link, a:active, a:visited {
     0% {opacity: 0;}
     100% {opacity: 1;}
 }
-
 .niji span:nth-of-type(1),
 .niji span:nth-of-type(12){
-    color: rgb(204, 180, 227);
+    color: blueviolet;
 }
 .niji span:nth-of-type(2),
 .niji span:nth-of-type(13){
-    color: rgb(199, 170, 211);
+    color: darkviolet;
 }
 .niji span:nth-of-type(3),
 .niji span:nth-of-type(14){
-    color: rgb(172, 172, 252);
+    color: blue;
 }
 .niji span:nth-of-type(4),
 .niji span:nth-of-type(15){
-    color: rgb(95, 128, 95);
+    color: green;
 }
 .niji span:nth-of-type(5),
 .niji span:nth-of-type(16){
-    color: rgb(214, 250, 159);
+    color: rgb(255, 109, 47);
 }
 .niji span:nth-of-type(6),
 .niji span:nth-of-type(17){
-    color: rgb(183, 207, 135);
+    color: yellowgreen;
 }
 .niji span:nth-of-type(7),
 .niji span:nth-of-type(18){
@@ -246,8 +245,4 @@ a:link, a:active, a:visited {
 .niji span:nth-of-type(11){
     color: fuchsia;
 }
-
-
-
-
 
