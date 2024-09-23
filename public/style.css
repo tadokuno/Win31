@@ -49,7 +49,7 @@ body {
     padding: 10px;
     height: calc(100% - 40px); /* タイトルバーの分を引いた高さ */
     overflow-y: scroll; /* 常にスクロールバーを表示 */
-    font-size: 12px;
+    font-size: 14px;
     background-color: white
     box-sizing: border-box;
     -webkit-overflow-scrolling: touch; /* iOSでのスムーズスクロール */
