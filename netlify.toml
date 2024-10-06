@@ -7,3 +7,7 @@
   to = "/images/:splat"
   status = 200
 
+[[redirects]]
+  from = "/upload"
+  to = "/.netlify/functions/upload"
+  status = 200

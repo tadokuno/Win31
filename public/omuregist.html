@@ -39,6 +39,16 @@
         .input-window form {
             background-color: rgb(221, 221, 221);
         }
+        .complete-message {
+            display: none;
+            padding: 10px;
+            margin-top: 10px;
+            border: 2px solid #808080;
+            background-color: #d4d0c8;
+            box-shadow: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #000000;
+            font-size: 12px;
+            text-align: center;
+        }
     </style>
 
 </head>
@@ -54,7 +64,7 @@
         <div class="content" data-simplebar data-simplebar-auto-hide="false">
             <header>オムライス登録</header>
             <main>
-                <form action="/upload" method="post" enctype="multipart/form-data">
+                <form id="uploadForm" method="post" enctype="multipart/form-data">
                     <!-- 駅のテキスト入力 -->
                     <div class="text">
                         <label for="station">駅名:</label>
@@ -115,7 +125,7 @@
                     <!-- 画像アップロードフィールド -->
                     <div class="file-upload">
                         <label for="file">画像をアップロード：</label>
-                        <input type="file" id="file" name="file" accept="*/*">
+                        <input type="file" id="file" name="file" accept="image/*" required>
                     </div>
 
                     <!-- 送信ボタン -->
@@ -123,14 +133,24 @@
                         <input type="submit" value="送信" class="button">
                     </div>
                 </form>
+                <dev id="completeMessage" class="complete-message">完了しました</div>
             </main>
             <footer>(c) OmuQuest</footer>
         </div>
     </div>
 
     <script>
+        document.getElementById('uploadForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // ファイルアップロード処理をシミュレート（ここに実際の処理を追加）
+            setTimeout(function () {
+                // アップロード完了後に完了メッセージを表示
+                document.getElementById('completeMessage').style.display = 'block';
+            }, 1000); // 1秒後に完了表示
+        });
+/*
         document.querySelector('form').addEventListener('submit', async (event) => {
-            event.preventDefault();
 
             const formData = new FormData(event.target);
 
@@ -166,6 +186,7 @@
                 reader.readAsDataURL(file); // 画像をBase64に変換
             }
         });
+*/
     </script>
 </body>
 </html>

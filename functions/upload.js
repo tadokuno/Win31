@@ -3,7 +3,7 @@ const path = require('path');
 
 exports.handler = async (event, context) => {
   if (event.httpMethod === 'POST') {
-    const formData = JSON.parse(event.body);
+/*    const formData = JSON.parse(event.body);
     console.log(formData);
 
     // ファイルのアップロード処理
@@ -25,7 +25,8 @@ console.log(filePath);
 
     const dataPath = path.join(__dirname, 'data', 'omurice.json');
     fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
-
+*/
+    const fileName="fileName";
     return {
       statusCode: 200,
       body: JSON.stringify({ message: 'データと画像が正常に保存されました', imagePath: `/images/${fileName}` }),
